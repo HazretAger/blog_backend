@@ -2,7 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 
 import { register, login, profile } from "./controllers/UserController.js";
-import { registerValidation } from "./validations/auth.js";
+import { createPost, getAllPosts } from "./controllers/PostController.js";
+import {
+  loginValidation,
+  registerValidation,
+  postCreateValidation,
+} from "./validations.js";
+
 import checkAuth from "./middlewares/checkAuth.js";
 
 mongoose
@@ -14,15 +20,18 @@ mongoose
 
 const app = express();
 
+const PORT = process.env.PORT || 4444;
+
 app.use(express.json());
 
-app.post("/auth/login", login);
-
+app.post("/auth/login", loginValidation, login);
 app.post("/auth/register", registerValidation, register);
-
 app.get("/auth/profile", checkAuth, profile);
 
-app.listen(4444, (err) => {
+app.post("/posts", checkAuth, postCreateValidation, createPost);
+app.get("/posts", getAllPosts);
+
+app.listen(PORT, (err) => {
   if (err) {
     return err;
   }
