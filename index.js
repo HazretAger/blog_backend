@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import crossOrigin from "cross-origin";
 
 import { UserController, PostController } from "./controllers/index.js";
 import { checkAuth, handleValidationErrors } from "./middlewares/index.js";
@@ -34,6 +35,7 @@ const upload = multer({ storage });
 const PORT = process.env.PORT || 4444;
 
 app.use(express.json());
+app.use(crossOrigin);
 app.use("/uploads", express.static("uploads"));
 
 app.post(
