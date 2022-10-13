@@ -50,7 +50,8 @@ app.post(
   handleValidationErrors,
   UserController.register
 );
-app.get("/auth/profile", checkAuth, UserController.profile);
+app.get("/auth/profile/:id", UserController.getUserById);
+// app.get("/auth/profile", checkAuth, UserController.profile);
 
 app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
   res.json({

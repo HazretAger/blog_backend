@@ -104,3 +104,19 @@ export const profile = async (req, res) => {
     console.log(err);
   }
 };
+
+export const getUserById = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.params.id);
+    if (!user) {
+      res.status(400).json({
+        message: "Пользователь не найден",
+      });
+    } else {
+      const { passwordHash, ...userData } = user._doc;
+      return res.json(userData);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
